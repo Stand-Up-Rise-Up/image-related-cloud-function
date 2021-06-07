@@ -1,0 +1,5 @@
+Clone our rest API repository
+Setup your google storage key
+Put your google storage api key in the key.json file
+Setup your google function or server
+Upload the repository to your server
