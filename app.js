@@ -1,6 +1,7 @@
 const express = require('express')
 const multer = require('multer')
 const googleHandler = require('./googleHandler')
+const request = require('request')
 const app = express()
 
 const multerMiddleware = multer({
@@ -11,7 +12,15 @@ const multerMiddleware = multer({
 });
 
 app.post('/processImage', multerMiddleware.single('file'), googleHandler.sendToStorage, (req, res, next) => {
-  return res.status(200).json(req.file);
+  var filename = googleHandler.passThisFilename
+  const link = "https://us-central1-annular-garden-313509.cloudfunctions.net/diseasePrediction-3/prediction?imagePath=https://storage.googleapis.com/annular-garden-313509/" + filename
+  request(link, function (error, response, body) {
+    console.error('error:', error); // Print the error
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    console.log('body:', body); // Print the data received
+    return res.status(200).send(body); //Display the response on the website
+  });
+  // return res.status(200).json(req.file);
 })
 
 app.get('/uploads', async (req, res, next) => {
