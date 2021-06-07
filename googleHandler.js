@@ -1,6 +1,7 @@
 const googleHelper = require('./google')
 const { storage } = googleHelper
 const DEFAULTBUCKETNAME = "annular-garden-313509"
+var passThisFilename = ""
 
 exports.sendToStorage = (req, res, next) => {
   if (!req.file) { return next() }
@@ -29,5 +30,8 @@ exports.sendToStorage = (req, res, next) => {
         next()
       })
   })
+  passThisFilename = fileName
   stream.end(req.file.buffer)
 }
+
+exports.passThisFilename = passThisFilename;
